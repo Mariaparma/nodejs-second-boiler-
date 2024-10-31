@@ -31,6 +31,7 @@ usuariosRoutes.get("/:id", (req, res) => {
     const { id } = req.params
 
     const user = userList.getUserById(id);
+
     if (!user) {
       return res.status(404).json({
         message:`Usuário com id ${id} não encontrado`,
@@ -44,7 +45,21 @@ usuariosRoutes.get("/:id", (req, res) => {
 });
 
 usuariosRoutes.put("/:id", (req, res) => {
+  const { id } = req.params
+  const {name, email, password} = req.body;
 
+  const user = userList.updateUser (id, name, email, password);
+
+  if (!user) {
+    return res.status(404).json({
+      message:`Usuário com id ${id} não encontrado`,
+});
+  }
+
+  return res.status(200).json({
+    message: `Usuário com id ${id} encontrado com sucesso!`,
+    user,
+  });
 });
 
 usuariosRoutes.delete("/:id", (req, res) => {
